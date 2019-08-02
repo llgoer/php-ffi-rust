@@ -1,0 +1,9 @@
+[package]
+name = "r2p-fib"
+version = "0.1.0"
+authors = ["llgoer <llgoer@github.com>"]
+edition = "2018"
+
+[lib]
+name = "r2pfib"
+crate-type = ["dylib"]
