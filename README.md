@@ -2,6 +2,10 @@
 
 本项目目标就是采用Rust编写扩展库，提供给PHP7.4的FFI扩展，看看是否能够抢救一下PHP。
 
+## 拓展
+
+[创建一个PHP扩展调用Rust动态库](docs/php-ext.md)
+
 ## 测试环境
 
 macOS：10.13.6
@@ -199,3 +203,14 @@ string(52) "💣na na na na na na na na na na na na Batman! 💣"
 [PHP]执行时间:0.23888492584229
 string(52) "💣na na na na na na na na na na na na Batman! 💣"
 ```
+
+## 总结
+
+目前PHP同Rust结合有几种方式：1.PHP的FFI调用Rust导出的库；2.编写PHP扩展调用Rust动态库；3.直接采用Rust编写PHP扩展库；
+
+第一种目前并不成熟，而且受限于PHP7.4+，所以不是很推荐，仅限于兴趣研究，另外FFI性能损耗也是比较大，频繁调用处理非常不推荐。
+
+第二种比较实用，如果想为PHP添加一些额外扩展也是非常推荐这种方式，将Rust开发的库按照格式导出再交给PHP调用处理。
+
+第三种基本上需要将PHP的C API导出为Rust方法，然后直接在Rust中编写PHP的扩展，这种方式目前还没尝试。
+
