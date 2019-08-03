@@ -8,6 +8,14 @@
 #include "ext/standard/info.h"
 #include "php_rust.h"
 
+// 这里直接编写一个C的fib调用
+int fibinC(int n) 
+{ 
+    if (n <= 1) 
+        return n; 
+    return fibinC(n - 1) + fibinC(n - 2); 
+} 
+
 
 /* For compatibility with older PHP versions */
 #ifndef ZEND_PARSE_PARAMETERS_NONE
@@ -45,7 +53,6 @@ PHP_FUNCTION(rust_test2)
 }
 /* }}}*/
 
-// rust fib函数导入到PHP中的具体实现
 /* {{{ int rust_fib( [ int $var ] )
  */
 PHP_FUNCTION(rust_fib)
@@ -61,6 +68,26 @@ PHP_FUNCTION(rust_fib)
 		RETURN_LONG(result);
 	} else {
 		result = fib(number);
+		RETURN_LONG(result);
+	}
+}
+/* }}}*/
+
+/* {{{ int c_fib( [ int $var ] )
+ */
+PHP_FUNCTION(c_fib)
+{
+	zend_long number = 0;
+	zend_long result = 0;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(number)
+	ZEND_PARSE_PARAMETERS_END();
+
+	if (number == 0) {
+		RETURN_LONG(result);
+	} else {
+		result = fibinC(number);
 		RETURN_LONG(result);
 	}
 }
@@ -97,8 +124,11 @@ ZEND_BEGIN_ARG_INFO(arginfo_rust_test2, 0)
 	ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
-// 这里处理参数
 ZEND_BEGIN_ARG_INFO(arginfo_rust_fib, 0)
+	ZEND_ARG_INFO(0, number)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO(arginfo_c_fib, 0)
 	ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 /* }}} */
@@ -109,6 +139,7 @@ static const zend_function_entry rust_functions[] = {
 	PHP_FE(rust_test1,		arginfo_rust_test1)
 	PHP_FE(rust_test2,		arginfo_rust_test2)
 	PHP_FE(rust_fib,		arginfo_rust_fib)
+	PHP_FE(c_fib,		arginfo_c_fib)
 	PHP_FE_END
 };
 /* }}} */

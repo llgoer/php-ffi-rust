@@ -55,4 +55,13 @@ for ($i=0; $i < 10000000; $i++) {
 
 echo '[Rust]Ext执行时间:' . (microtime(true) - $time_start).PHP_EOL;
 
+
+// 这里我们采用C编写的一个PHP扩展
+$time_start = microtime(true);
+for ($i=0; $i < 10000000; $i++) { 
+	$v = c_fib(12);
+}
+
+echo '[C]Ext执行时间:' . (microtime(true) - $time_start).PHP_EOL;
+
 ?>

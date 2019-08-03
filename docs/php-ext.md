@@ -124,6 +124,40 @@ PHP_FUNCTION(rust_fib)
 ```
 这里我们只是贴出核心的代码部分。
 
+为了更好的测试，我们同时编写了一个C的版本
+
+```
+// 这里直接编写一个C的fib调用
+int fibinC(int n) 
+{ 
+    if (n <= 1) 
+        return n; 
+    return fibinC(n - 1) + fibinC(n - 2); 
+} 
+/* {{{ int c_fib( [ int $var ] )
+ */
+PHP_FUNCTION(c_fib)
+{
+	zend_long number = 0;
+	zend_long result = 0;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(number)
+	ZEND_PARSE_PARAMETERS_END();
+
+	if (number == 0) {
+		RETURN_LONG(result);
+	} else {
+		result = fibinC(number);
+		RETURN_LONG(result);
+	}
+}
+/* }}}*/
+ZEND_BEGIN_ARG_INFO(arginfo_c_fib, 0)
+	ZEND_ARG_INFO(0, number)
+ZEND_END_ARG_INFO()
+```
+
 ## 重新编译运行
 
 这里编译需要增加对我们之前动态链接库的引用。
@@ -153,10 +187,11 @@ echo '[Rust]Ext执行时间:' . (microtime(true) - $time_start).PHP_EOL;
 执行`make test-php`，运行结果如下：
 
 ```
-[PHP]fib执行时间:36.620906829834
-[Rust]Debug执行时间:21.764172077179
-[Rust]Release执行时间:6.7895750999451
-[Rust]Ext执行时间:4.9096128940582
+[PHP]fib执行时间:35.900850057602
+[Rust]Debug执行时间:22.036439180374
+[Rust]Release执行时间:6.8401432037354
+[Rust]Ext执行时间:5.19260597229
+[C]Ext执行时间:13.217513799667
 ```
 看来用Rust开发PHP的扩展性能上面是完全可以的。
 
