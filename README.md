@@ -184,3 +184,18 @@ echo '[Rust]Release执行时间:' . (microtime(true) - $time_start).PHP_EOL;
 [Rust]Debug执行时间:2.0988941192627
 [Rust]Release执行时间:0.56653189659119
 ```
+
+## 字符串测试
+
+我们编写了一个生成字符串的调用测试，详细可以参考`test-ffi2.php`。
+
+这个例子告诉我们，这里频繁调用字符串解析是比较消耗性能的。
+
+```
+[Rust]debug执行时间:7.8468458652496
+string(52) "💣na na na na na na na na na na na na Batman! 💣"
+[Rust]release执行时间:1.4546401500702
+string(52) "💣na na na na na na na na na na na na Batman! 💣"
+[PHP]执行时间:0.23888492584229
+string(52) "💣na na na na na na na na na na na na Batman! 💣"
+```

@@ -14,8 +14,8 @@ function fib($n) {
 
 // 这里测试PHP下的Fib函数
 $time_start = microtime(true);
-for ($i=0; $i < 100000; $i++) { 
-	fib(12);
+for ($i=0; $i < 1000000; $i++) { 
+	$v = fib(12);
 }
 echo '[PHP]fib执行时间:' . (microtime(true) - $time_start).PHP_EOL;
 
@@ -29,8 +29,8 @@ $ffiDebug = FFI::cdef(
     "r2p-fib/target/debug/libr2pfib.$libExtension");
 
 $time_start = microtime(true);
-for ($i=0; $i < 1000000; $i++) { 
-	$ffiDebug->fib(12);
+for ($i=0; $i < 10000000; $i++) { 
+	$v = $ffiDebug->fib(12);
 }
 
 echo '[Rust]Debug执行时间:' . (microtime(true) - $time_start).PHP_EOL;
@@ -41,8 +41,8 @@ $ffiRelease = FFI::cdef(
     "r2p-fib/target/release/libr2pfib.$libExtension");
 
 $time_start = microtime(true);
-for ($i=0; $i < 1000000; $i++) { 
-	$ffiRelease->fib(12);
+for ($i=0; $i < 10000000; $i++) { 
+	$v = $ffiRelease->fib(12);
 }
 
 echo '[Rust]Release执行时间:' . (microtime(true) - $time_start).PHP_EOL;

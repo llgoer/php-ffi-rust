@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["llgoer <llgoer@github.com>"]
 edition = "2018"
 
+[dependencies]
+libc = "*"
+
 [lib]
 name = "r2pfib"
 crate-type = ["dylib"]
